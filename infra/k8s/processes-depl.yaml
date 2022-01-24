@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: processes-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: processes
+  template:
+    metadata:
+      labels:
+        app: processes
+    spec:
+      containers:
+        - name: processes
+          image: squashataka/processes
+          imagePullPolicy: Never
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: processes-srv
+spec:
+  selector:
+    app: processes
+  ports:
+    - name: processes
+      protocol: TCP
+      port: 4001
+      targetPort: 4001
