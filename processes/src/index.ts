@@ -3,7 +3,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 const app = express();
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({origin:true,credentials: true}));
 
 app.post('/processes', (req, res) => {
   const { code } = req.body;
