@@ -6,7 +6,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-    - host: joinery.ai
+    - host: api.joinery.ai
       http:
         paths:
           - path: /processes
