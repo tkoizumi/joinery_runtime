@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user1-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user1
+  template:
+    metadata:
+      labels:
+        app: user1
+    spec:
+      containers:
+        - name: processes
+          image: squashataka/processes
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user1-srv
+spec:
+  selector:
+    app: user1
+  ports:
+    - name: user1
+      protocol: TCP
+      port: 4002
+      targetPort: 4002
