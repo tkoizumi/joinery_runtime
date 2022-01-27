@@ -16,3 +16,10 @@ spec:
                 name: processes-srv
                 port:
                   number: 4001
+          - path: /processes/user1
+            pathType: Prefix
+            backend:
+              service:
+                name: user1-srv
+                port:
+                  number: 4002
