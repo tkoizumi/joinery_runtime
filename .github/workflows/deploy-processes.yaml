@@ -23,4 +23,5 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       - run: doctl kubernetes cluster kubeconfig save joinery-runtime
+      - run: kubectl config view
       - run: kubectl rollout restart deployment processes-depl
