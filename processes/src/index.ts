@@ -9,7 +9,7 @@ app.post('/processes', (req, res) => {
   const { code, selectedFile } = req.body;
   console.log('starting api process');
   console.log(`request: ${req}`);
-  console.log(`running code like this =>`);
+  console.log(`running code like this ==>`);
   console.log(`selected file: ${selectedFile}`);
   eval(code);
   res.status(200).send('Post success!');
