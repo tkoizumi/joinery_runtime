@@ -6,8 +6,9 @@ app.use(bodyParser.json());
 app.use(cors({origin:true,credentials: true}));
 
 app.post('/processes', (req, res) => {
-  const { code } = req.body;
+  const { code, selectedFile } = req.body;
   console.log(`running code like this =>`);
+  console.log(`selected file: ${selectedFile}`)
   eval(code);
   res.status(200).send('Post success!');
 });
