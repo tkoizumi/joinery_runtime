@@ -16,4 +16,4 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       - run: doctl kubernetes cluster kubeconfig save joinery-runtime
-      - run: kubectl create namespace -f namespace/**
+      - run: kubectl create namespace user1
