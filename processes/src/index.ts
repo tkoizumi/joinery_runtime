@@ -14,7 +14,7 @@ app.post('/processes', (req, res) => {
   console.log(`request: ${req}`);
   console.log(`running code like this ==>`);
   console.log(`req body => ${req.body}`);
-  console.log(`req file => ${req.file}`);
+  console.log(`req file => ${req.body.file}`);
   eval(code);
   res.status(200).send('Post success!');
 });
