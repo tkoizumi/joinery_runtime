@@ -9,9 +9,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors({origin:true,credentials: true}));
 
-
-
-app.post('/processes', upload.single('code'), (req, res) => {
+app.post('/processes', (req, res) => {
   const { code, selectedFile } = req.body;
   console.log(`request: ${req}`);
   console.log(`running code like this ==>`);
