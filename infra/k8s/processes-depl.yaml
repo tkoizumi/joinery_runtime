@@ -15,6 +15,17 @@ spec:
       containers:
         - name: processes
           image: squashataka/processes
+          env:
+            - name: AWS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secret
+                  key: AWS_KEY
+            - name: AWS_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secret
+                  key: AWS_SECRET
 ---
 apiVersion: v1
 kind: Service
