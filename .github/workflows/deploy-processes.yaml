@@ -28,4 +28,5 @@ jobs:
       - run: kubectl rollout restart deployment processes-depl
       - run: kubectl config set-context user1 --namespace=user1 --cluster=do-nyc1-joinery-runtime --user=do-nyc1-joinery-runtime-admin
       - run: kubectl config use-context user1
+      - run: kubectl apply -f processes-depl.yaml
       - run: kubectl rollout restart deployment processes-depl
