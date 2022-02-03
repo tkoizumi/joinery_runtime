@@ -3,28 +3,34 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import axios from 'axios';
 import upload from './upload';
+import s3 from './s3client';
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors({origin:true,credentials: true}));
-
-const spacesEndpoint = 'https://joinery.nyc3.digitaloceanspaces.com';
 
 app.post('/processes', (req, res) => {
   upload(req, res, function (error) {
     console.log('inside upload');
     if (error) {
       console.log(error);
-      return res.status(200).send('Post Error!');
+      res.status(400).send('Post Error!');
     }
     console.log('File uploaded successfully!');
     res.status(200).send('Success!');
   });
 });
 
-app.get('/processes/hello-sir', async (req, res) => {
-  console.log(req.body);
-  res.status(200).send('you got me!');
+app.get('/processes/:fileName', (req, res) => {
+  const params = {Bucket: 'joinery', Key: req.params.fileName};
+  console.log(params);
+  s3.getObject(params, (err,data) => {
+    if(err){
+      res.status(400).send(err.message);
+    } else {
+      res.status(200).send(data.Body?.toString());
+    }
+  });
 });
 
 app.listen(4001, () => {
