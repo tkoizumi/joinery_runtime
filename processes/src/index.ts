@@ -16,7 +16,7 @@ app.post('/processes', (req, res) => {
       console.log(error);
       res.status(400).send('Post Error!');
     }
-    console.log('File uploaded successfully!');
+    console.log('File uploaded successfully!!');
     res.status(200).send('Success!');
   });
 });
