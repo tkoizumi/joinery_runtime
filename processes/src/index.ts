@@ -23,8 +23,7 @@ app.post('/processes', (req, res) => {
 });
 
 app.get('/processes/hello-sir', async (req, res) => {
-  const resp = await axios.get(`${spacesEndpoint}/hello-sir`);
-  console.log(resp);
+  console.log(req.body);
   res.status(200).send('you got me!');
 });
 
