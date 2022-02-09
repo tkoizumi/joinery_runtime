@@ -1,11 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import axios from 'axios';
 import upload from './upload';
 import s3 from './s3client';
 
 const app = express();
+
 app.use(bodyParser.json());
 app.use(cors({origin:true,credentials: true}));
 
@@ -18,6 +18,17 @@ app.post('/processes', (req, res) => {
     }
     console.log('File uploaded successfully!!');
     res.status(200).send('Success!');
+  });
+});
+
+app.get('/processes/all', (req, res) => {
+  const params = {Bucket: 'joinery'};
+  s3.listObjectsV2(params, (err,data) => {
+    if(err){
+      res.status(400).send(err.message);
+    } else {
+      res.status(200).send(data);
+    }
   });
 });
 
