@@ -85,5 +85,5 @@ app.post('/processes/:fileName/schedule/:action', (req, res) => {
 });
 
 app.listen(4001, () => {
-  console.log('Listening on 4001. Cool kittans.')
+  console.log('Listening on 4001. Cool kittens.')
 });
