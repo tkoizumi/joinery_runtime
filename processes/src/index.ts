@@ -13,13 +13,6 @@ app.use(bodyParser.json());
 app.use(cors({origin:true,credentials: true}));
 
 app.post('/processes', (req, res) => {
-  (async () => {
-    await redisClient.connect();
-    //redisClient.set('taka', 'takafaka');
-    const value = await redisClient.get('taka');
-    console.log(value);
-    redisClient.quit();
-  })();
   upload(req, res, function (error) {
     if (error) {
       console.log(error);
@@ -41,6 +34,7 @@ app.get('/processes/all', (req, res) => {
     redisClient.set('taka', 'takafaka');
     const value = await redisClient.get('taka');
     console.log(value);
+    redisClient.quit();
   })();
   const params = {Bucket: 'joinery'};
   s3.listObjectsV2(params, (err,data) => {
