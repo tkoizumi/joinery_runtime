@@ -5,6 +5,7 @@ import upload from './upload';
 import run from './runCode';
 import schedule from 'node-schedule';
 import s3 from './s3client';
+import redisClient from './redisClient';
 
 const app = express();
 
@@ -12,6 +13,13 @@ app.use(bodyParser.json());
 app.use(cors({origin:true,credentials: true}));
 
 app.post('/processes', (req, res) => {
+  (async () => {
+    await redisClient.connect();
+    //redisClient.set('taka', 'takafaka');
+    const value = await redisClient.get('taka');
+    console.log(value);
+    redisClient.quit();
+  })();
   upload(req, res, function (error) {
     if (error) {
       console.log(error);
@@ -22,6 +30,18 @@ app.post('/processes', (req, res) => {
 });
 
 app.get('/processes/all', (req, res) => {
+  (async () => {
+    await redisClient.connect();
+    redisClient.on('connect', () => {
+      console.log('redis connected');
+    });
+    redisClient.on('error', err => {
+      console.log(`Error - ${err}`);
+    });
+    redisClient.set('taka', 'takafaka');
+    const value = await redisClient.get('taka');
+    console.log(value);
+  })();
   const params = {Bucket: 'joinery'};
   s3.listObjectsV2(params, (err,data) => {
     if(err){
@@ -83,6 +103,8 @@ app.post('/processes/:fileName/schedule/:action', (req, res) => {
   }
   res.status(200).send(resBody);
 });
+
+
 
 app.listen(4001, () => {
   console.log('Listening on 4001. Cool kittns.')
