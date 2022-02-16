@@ -26,6 +26,16 @@ spec:
                 secretKeyRef:
                   name: aws-secret
                   key: AWS_SECRET
+            - name: REDIS_USER
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret
+                  key: REDIS_USER
+            - name: REDIS_PSWD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret
+                  key: REDIS_PSWD
 ---
 apiVersion: v1
 kind: Service
