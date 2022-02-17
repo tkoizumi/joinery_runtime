@@ -44,6 +44,7 @@ app.get('/processes/:fileName', (req, res) => {
     if(err){
       res.status(400).send(err.message);
     } else {
+      console.log(data.Body?.toString());
       res.status(200).send(data.Body?.toString());
     }
   });
@@ -89,7 +90,6 @@ app.post('/processes/:fileName/schedule/:action', (req, res) => {
   }
   res.status(200).send(resBody);
 });
-
 
 
 app.listen(4001, () => {
