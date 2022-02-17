@@ -27,8 +27,7 @@ app.get('/processes/all', (req, res) => {
     await redisClient.connect();
     const value = await redisClient.get('taka');
     console.log(value);
-
-    //redisClient.quit();
+    redisClient.quit();
   })();
   const params = {Bucket: 'joinery'};
   s3.listObjectsV2(params, (err,data) => {
