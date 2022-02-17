@@ -1,11 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import upload from './upload';
+import { create, save } from './upload';
 import run from './runCode';
 import schedule from 'node-schedule';
 import s3 from './s3client';
-import redisClient from './redisClient';
+import { lRange } from './redisClient';
 
 const app = express();
 
@@ -13,7 +13,17 @@ app.use(bodyParser.json());
 app.use(cors({origin:true,credentials: true}));
 
 app.post('/processes', (req, res) => {
-  upload(req, res, function (error) {
+  create(req, res, function (error) {
+    if (error) {
+      console.log(error);
+      res.status(400).send('Post Error');
+    }
+    res.status(200).send('Upload Success!');
+  });
+});
+
+app.post('/processes/save', (req, res) => {
+  save(req, res, function (error) {
     if (error) {
       console.log(error);
       res.status(400).send('Post Error!!');
@@ -22,21 +32,10 @@ app.post('/processes', (req, res) => {
   });
 });
 
-app.get('/processes/all', (req, res) => {
-  (async () => {
-    await redisClient.connect();
-    const value = await redisClient.get('taka');
-    console.log(value);
-    redisClient.quit();
-  })();
-  const params = {Bucket: 'joinery'};
-  s3.listObjectsV2(params, (err,data) => {
-    if(err){
-      res.status(400).send(err.message);
-    } else {
-      res.status(200).send(data);
-    }
-  });
+app.get('/processes/all', async (req, res) => {
+  const list = await lRange('files', 0, -1);
+  console.log(list);
+  res.status(200).send(list);
 });
 
 app.get('/processes/:fileName', (req, res) => {
