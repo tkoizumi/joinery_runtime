@@ -23,20 +23,13 @@ app.post('/processes', (req, res) => {
 });
 
 app.get('/processes/all', (req, res) => {
-  // (async () => {
-  //   await redisClient.connect();
-  //   // redisClient.on('connect', () => {
-  //   //   console.log('redis connected');
-  //   // });
-  //   // redisClient.on('error', err => {
-  //   //   console.log(`Error - ${err}`);
-  //   // });
-  //   redisClient.set('taka', 'takafaka');
-  //   const value = await redisClient.get('taka');
-  //   console.log(value);
+  (async () => {
+    await redisClient.connect();
+    const value = await redisClient.get('taka');
+    console.log(value);
 
-  //   //redisClient.quit();
-  // })();
+    //redisClient.quit();
+  })();
   const params = {Bucket: 'joinery'};
   s3.listObjectsV2(params, (err,data) => {
     if(err){
