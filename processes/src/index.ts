@@ -26,7 +26,7 @@ app.post('/processes/save', (req, res) => {
   save(req, res, function (error) {
     if (error) {
       console.log(error);
-      res.status(400).send('Post Error!!');
+      res.status(400).send('Post Error!');
     }
     res.status(200).send('Upload Success!');
   });
