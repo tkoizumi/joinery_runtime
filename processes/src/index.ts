@@ -1,24 +1,23 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import { create, save } from './upload';
+import { create, save, remove } from './upload';
 import run from './runCode';
 import schedule from 'node-schedule';
 import s3 from './s3client';
-import { lRange } from './redisClient';
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(cors({origin:true,credentials: true}));
 
-app.post('/processes', (req, res) => {
+app.post('/processes/create', (req, res) => {
   create(req, res, function (error) {
     if (error) {
       console.log(error);
-      res.status(400).send('Post Error');
+      res.status(400).send('Create Error');
     }
-    res.status(200).send('Upload Success!');
+    res.status(200).send('Create Success!');
   });
 });
 
@@ -26,16 +25,31 @@ app.post('/processes/save', (req, res) => {
   save(req, res, function (error) {
     if (error) {
       console.log(error);
-      res.status(400).send('Post Error!');
+      res.status(400).send('Save Error!');
     }
-    res.status(200).send('Upload Success!');
+    res.status(200).send('Save Success!');
   });
 });
 
-app.get('/processes/all', async (req, res) => {
-  const list = await lRange('files', 0, -1);
-  console.log(list);
-  res.status(200).send(list);
+app.post('/processes/delete', (req, res) => {
+  remove(req, res, function (error) {
+    if (error) {
+      console.log(error);
+      res.status(400).send('Delete Error!');
+    }
+    res.status(200).send('Delete Success!');
+  });
+});
+
+app.get('/processes/all', (req, res) => {
+  const params = {Bucket: 'joinery'};
+  s3.listObjectsV2(params, (err,data) => {
+    if(err){
+      res.status(400).send(err.message);
+    } else {
+      res.status(200).send(data);
+    }
+  });
 });
 
 app.get('/processes/:fileName', (req, res) => {
